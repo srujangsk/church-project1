@@ -14,7 +14,7 @@ from bs4 import BeautifulSoup
 
 # Replace with your Google Site URL
 url = "https://your-google-site.com"
-url = "https://sites.google.com/view/vignapana-ministries-songs/%E0%B0%B5%E0%B0%9C%E0%B0%9E%E0%B0%AA%E0%B0%A8-%E0%B0%95%E0%B0%B0%E0%B0%A4%E0%B0%A8%E0%B0%B2"
+url = "https://sites.google.com/view/vignapana-ministries-songs/"
 
 # Get the HTML content
 response = requests.get(url)

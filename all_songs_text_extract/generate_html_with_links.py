@@ -18,18 +18,55 @@ def generate_html(links_file, titles_file, output_file):
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Vignapana Ministries Songs</title>
+        <script>
+            function toggleOrder() {
+                var list = document.getElementById("songList");
+                var items = list.getElementsByTagName("li");
+                var arr = [];
+
+                for (var i = 0; i < items.length; i++) {
+                    arr.push(items[i]);
+                }
+
+                arr.sort(function(a, b) {
+                    var titleA = a.textContent.trim().replace(/^\d+\.\s/, '');  // Remove serial numbers
+                    var titleB = b.textContent.trim().replace(/^\d+\.\s/, '');
+
+                    // Sort based on Telugu letters
+                    return titleA.localeCompare(titleB, 'en', { sensitivity: 'base' });
+                });
+
+                if (list.dataset.order === "original") {
+                    for (var i = 0; i < arr.length; i++) {
+                        list.appendChild(arr[i]);
+                    }
+                    list.dataset.order = "alphabetical";
+                } else {
+                    for (var i = 0; i < arr.length; i++) {
+                        list.appendChild(items[i]);
+                    }
+                    list.dataset.order = "original";
+                }
+            }
+        </script>
     </head>
     <body>
 
     <h1>Vignapana Ministries Songs</h1>
 
-    <ul>
+    <button onclick="toggleOrder()">Toggle Order</button>
+
+    <ul id="songList">
     """
 
-    for title, link in zip(titles, links):
-        title_parts = title.split(".")
-        title_text = title_parts[1].strip() if len(title_parts) > 1 else title.strip()
-        html_content += f'        <li><a href="{link.strip()}">{title_text}</a></li>\n'
+    songs = list(zip(titles, links))
+
+    # Sort based on Telugu letters
+    songs.sort(key=lambda x: x[0].strip())
+
+    for title, link in songs:
+        title_text = title.strip()  # Remove leading/trailing whitespaces
+        html_content += f'        <li>{title_text}<a href="{link.strip()}">{title_text}</a></li>\n'
 
     html_content += """
     </ul>

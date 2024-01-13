@@ -7,7 +7,11 @@ document.addEventListener('DOMContentLoaded', function () {
     fetchSongs();
 
     function fetchSongs() {
-        fetch(`${songsFolder}`)
+        fetch(`${songsFolder}`, {
+            headers: {
+                'Content-Type': 'text/html; charset=utf-8'
+            }
+        })
             .then(response => response.text())
             .then(html => {
                 // Parse the HTML content to extract file names.

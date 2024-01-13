@@ -1,27 +1,39 @@
-body {
-    font-family: 'Arial', sans-serif;
-    margin: 20px;
-}
+document.addEventListener('DOMContentLoaded', function () {
+    const songList = document.getElementById('songList');
+    const songDetails = document.getElementById('songDetails');
 
-h1 {
-    color: #333;
-}
+    // Assuming your songs are directly inside the "songs" folder.
+    const songsFolder = 'songs/';
 
-ul {
-    list-style: none;
-    padding: 0;
-}
+    // Fetch the list of songs.
+    fetchSongList();
 
-li {
-    margin-bottom: 10px;
-    cursor: pointer;
-    color: #0066cc;
-}
+    function fetchSongList() {
+        // Simulate fetching the list of songs (replace with your logic).
+        // List all the songs in the "songs" folder.
+        fetch(`${songsFolder}`)
+            .then(response => response.json())
+            .then(songFiles => {
+                // Display the list of songs.
+                songFiles.forEach(songFile => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = songFile.replace('.txt', ''); // Display the song name without the file extension.
+                    listItem.addEventListener('click', () => showSongDetails(songFile));
+                    songList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching song list:', error));
+    }
 
-li:hover {
-    text-decoration: underline;
-}
-
-#songDetails {
-    margin-top: 20px;
-}
+    function showSongDetails(songFile) {
+        // Simulate fetching song details (replace with your logic).
+        // Read the content of the selected song file.
+        fetch(`${songsFolder}${songFile}`)
+            .then(response => response.text())
+            .then(songLyrics => {
+                const songDetailsContent = `<strong>${songFile.replace('.txt', '')}</strong><br />${songLyrics}`;
+                songDetails.innerHTML = songDetailsContent;
+            })
+            .catch(error => console.error('Error fetching song details:', error));
+    }
+});

@@ -9,8 +9,8 @@ if len(titles) != len(links):
     print("Error: Number of lines in titles_mod.txt and links_mod.txt should be the same.")
     exit()
 
-# Zip titles and links, then sort based on Telugu titles in alphabetical order
-sorted_links = natsorted(zip(titles, links), key=lambda x: x[0])
+# Extract only Telugu part of the titles, zip titles and links, then sort based on Telugu titles in alphabetical order
+sorted_links = natsorted(zip([title.split('-')[0].strip() for title in titles], links), key=lambda x: x[0])
 
 # Generate HTML code
 html_code = "<html>\n<body>\n"

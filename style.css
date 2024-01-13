@@ -1,39 +1,27 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const songList = document.getElementById('songList');
-    const songDetails = document.getElementById('songDetails');
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+}
 
-    // Assuming your songs are directly inside the "songs" folder.
-    const songsFolder = 'songs/';
+h1, h2 {
+    color: #333;
+}
 
-    // Fetch the list of songs.
-    fetchSongList();
+ul {
+    list-style: none;
+    padding: 0;
+}
 
-    function fetchSongList() {
-        // Simulate fetching the list of songs (replace with your logic).
-        // List all the songs in the "songs" folder.
-        fetch(`${songsFolder}`)
-            .then(response => response.json())
-            .then(songFiles => {
-                // Display the list of songs.
-                songFiles.forEach(songFile => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = songFile.replace('.txt', ''); // Display the song name without the file extension.
-                    listItem.addEventListener('click', () => showSongDetails(songFile));
-                    songList.appendChild(listItem);
-                });
-            })
-            .catch(error => console.error('Error fetching song list:', error));
-    }
+li {
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: #0066cc;
+}
 
-    function showSongDetails(songFile) {
-        // Simulate fetching song details (replace with your logic).
-        // Read the content of the selected song file.
-        fetch(`${songsFolder}${songFile}`)
-            .then(response => response.text())
-            .then(songLyrics => {
-                const songDetailsContent = `<strong>${songFile.replace('.txt', '')}</strong><br />${songLyrics}`;
-                songDetails.innerHTML = songDetailsContent;
-            })
-            .catch(error => console.error('Error fetching song details:', error));
-    }
-});
+li:hover {
+    text-decoration: underline;
+}
+
+#lyricsContainer {
+    margin-top: 20px;
+}

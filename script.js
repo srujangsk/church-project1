@@ -1,18 +1,32 @@
-const songList = document.getElementById('song-list');
-const songFolder = 'songs'; // The path to your song folder is already set here
+document.addEventListener('DOMContentLoaded', function () {
+    const songList = document.getElementById('songList');
+    const songDetails = document.getElementById('songDetails');
 
-const readSongs = () => {
-    const songFiles = fs.readdirSync(songFolder);
-    const songListHTML = songFiles.map(file => {
-        const title = file.replace(/\.mp3$/i, ''); // Adjust for different file extensions if needed
-        return `<li><a href="song.html?title=${title}">${title}</a></li>`;
-    }).join('');
-    songList.innerHTML = `<h2>Songs</h2><ul>${songListHTML}</ul>`;
-};
+    // Assuming your songs are directly inside the "songs" folder.
+    const songsFolder = 'songs/';
 
-// Check if the browser supports the File System Access API
-if (typeof fs === 'undefined') {
-    console.error('Browser does not support File System Access API.');
-} else {
-    readSongs();
-}
+    // Fetch the list of songs.
+    fetchSongList();
+
+    function fetchSongList() {
+        // Simulate fetching the list of songs (replace with your logic).
+        const songFiles = ['song1.txt', 'song2.txt', 'song3.txt']; // Replace with your actual file names.
+
+        // Display the list of songs.
+        songFiles.forEach(songFile => {
+            const listItem = document.createElement('li');
+            listItem.textContent = songFile.replace('.txt', ''); // Display the song name without the file extension.
+            listItem.addEventListener('click', () => showSongDetails(songFile));
+            songList.appendChild(listItem);
+        });
+    }
+
+    function showSongDetails(songFile) {
+        // Simulate fetching song details (replace with your logic).
+        const songDetailsContent = `Song Title: ${songFile.replace('.txt', '')}<br /> 
+                                    Artist: Your Artist<br /> 
+                                    Album: Your Album`;
+
+        songDetails.innerHTML = songDetailsContent;
+    }
+});

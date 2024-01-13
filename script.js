@@ -1,40 +1,29 @@
-const fs = require('fs');
-const path = require('path');
-
 document.addEventListener('DOMContentLoaded', function () {
     const songList = document.getElementById('songList');
-    const lyricsContainer = document.getElementById('lyricsContainer');
-    const songsFolder = 'songs/';
 
-    // Fetch the list of songs.
-    const songFiles = fetchSongs();
+    fetchSongList();
 
-    function fetchSongs() {
-        // Simulate fetching the list of songs.
-        try {
-            const files = fs.readdirSync(songsFolder);
-            return files.filter(file => path.extname(file) === '.txt');
-        } catch (error) {
-            console.error('Error fetching song list:', error);
-            return [];
-        }
-    }
+    function fetchSongList() {
+        // Assuming the songs folder is in the same directory as the HTML file.
+        const songsFolder = 'songs/';
 
-    // Display the list of songs.
-    songFiles.forEach(songFile => {
-        const listItem = document.createElement('li');
-        listItem.textContent = songFile.replace('.txt', '');
-        listItem.addEventListener('click', () => showLyrics(songFile));
-        songList.appendChild(listItem);
-    });
+        fetch(`${songsFolder}`)
+            .then(response => response.text())
+            .then(html => {
+                // Parse the HTML content to extract file names.
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const files = Array.from(doc.querySelectorAll('a')).map(a => a.textContent);
 
-    function showLyrics(songFile) {
-        // Simulate fetching song lyrics.
-        try {
-            const lyrics = fs.readFileSync(path.join(songsFolder, songFile), 'utf-8');
-            lyricsContainer.innerHTML = `<h2>${songFile.replace('.txt', '')}</h2><p>${lyrics}</p>`;
-        } catch (error) {
-            console.error('Error fetching song lyrics:', error);
-        }
+                // Display the list of songs.
+                files.forEach(songFile => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = songFile;
+                    songList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Error fetching song list:', error));
     }
 });
+
+

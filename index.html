@@ -1,20 +1,43 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Songs Website</title>
+    <title>File Reader Example</title>
 </head>
 <body>
 
-    <h1>Welcome to the Songs Website</h1>
+    <h1>File Reader Example</h1>
 
-    <!-- Links to individual song pages -->
-    <ul>
-        <li><a href="song1.html">Song 1</a></li>
-        <li><a href="song2.html">Song 2</a></li>
-    </ul>
+    <!-- Input element for file selection -->
+    <input type="file" id="fileInput" />
+    
+    <!-- Display area for file content -->
+    <pre id="fileContent"></pre>
+
+    <script>
+        // Function to handle file input change event
+        function handleFileSelect(event) {
+            const fileInput = event.target;
+            const file = fileInput.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                // Define what happens on successful file read
+                reader.onload = function (e) {
+                    const fileContent = e.target.result;
+                    document.getElementById('fileContent').textContent = fileContent;
+                };
+
+                // Read the file as text
+                reader.readAsText(file);
+            }
+        }
+
+        // Attach the event listener to the file input element
+        document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+    </script>
 
 </body>
 </html>

@@ -1,34 +1,23 @@
-import os
+def create_html_from_text(text_file, html_file):
+    with open(text_file, 'r') as file:
+        lyrics = file.readlines()
 
-def lyrics_to_html(lyrics_file, html_file):
-  """
-  Converts song lyrics from a text file to an HTML file.
+    with open(html_file, 'w') as file:
+        file.write('<html>\n')
+        file.write('<head><title>Song Lyrics</title></head>\n')
+        file.write('<body style="line-height: 0.8;">\n')  # Adjust the line height here
 
-  Args:
-    lyrics_file: Path to the text file containing song lyrics.
-    html_file: Path to the desired output HTML file.
-  """
-  with open(lyrics_file, "r") as f:
-    lyrics = f.read()
+        for line in lyrics:
+            if line.strip() != "":
+                file.write(f'<p>{line.strip()}</p>\n')
+            else:
+                file.write('<br>\n')
 
-  # Add basic HTML structure
-  html_content = f"<!DOCTYPE html><html><head><title>Song Lyrics</title></head><body>"
+        file.write('</body>\n')
+        file.write('</html>\n')
 
-  # Split lyrics into lines and wrap in <p> tags
-  for line in lyrics.splitlines():
-    html_content += f"<p>{line}</p>"
+    print(f'HTML file "{html_file}" has been created.')
 
-  # Close HTML tags
-  html_content += "</body></html>"
-
-  # Write HTML content to the output file
-  with open(html_file, "w") as f:
-    f.write(html_content)
-
-# Replace with your actual file paths
-lyrics_file = "61.txt"
-html_file = "song_lyrics.html"
-
-lyrics_to_html(lyrics_file, html_file)
-
-print(f"Converted lyrics from {lyrics_file} to {html_file}")
+text_file = '61.txt'
+html_file = 'song_lyrics.html'
+create_html_from_text(text_file, html_file)

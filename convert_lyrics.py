@@ -4,6 +4,8 @@ import re
 input_folder = "all_text_files"
 output_folder = "vignapana_atmeeya_geethalu"
 output_log_file = "conversion_log.txt"
+song_color = "#ffffff"  # Text color (white in this case)
+background_color = "#005580"  # Background color (a shade of blue in this case)
 
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
@@ -26,15 +28,15 @@ with open(output_log_file, "w") as log:
                 output_file.write("<!DOCTYPE html>\n")
                 output_file.write("<html>\n")
                 output_file.write("<head>\n")
-                output_file.write("<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n")
+                output_file.write(f"<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n")
                 output_file.write("<style>\n")
-                output_file.write("body { font-size: 16px; }\n")
+                output_file.write(f"body {{ font-size: 16px; color: {song_color}; background-color: {background_color}; }}\n")
                 output_file.write("h1, h2 { text-align: center; }\n")
                 output_file.write("img { max-width: 100%; height: auto; display: block; margin: 0 auto; }\n")
                 output_file.write("</style>\n")
                 output_file.write("</head>\n")
                 output_file.write("<body>\n")
-                output_file.write("<h1>విజ్ఞాపన ఆత్మీయ గీతాలు</h1>\n")
+                output_file.write(f"<h1 style='color: {song_color}'>విజ్ఞాపన ఆత్మీయ గీతాలు</h1>\n")
                 output_file.write(f"<h2>{song_title}</h2>\n")
                 output_file.write("<br>\n")
                 output_file.write(f"{first_line}<br>\n")
@@ -51,13 +53,13 @@ with open("index.html", "w") as index_file:
     index_file.write("<!DOCTYPE html>\n")
     index_file.write("<html>\n")
     index_file.write("<head>\n")
-    index_file.write("<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n")
+    index_file.write(f"<meta name='viewport' content='width=device-width, initial-scale=1.0'>\n")
     index_file.write("</head>\n")
-    index_file.write("<body>\n")
-    index_file.write("<h1>విజ్ఞాపన ఆత్మీయ గీతాలు</h1>\n")
+    index_file.write("<body style='color: white; background-color: #005580;'>\n")
+    index_file.write(f"<h1 style='color: {song_color}'>విజ్ఞాపన ఆత్మీయ గీతాలు</h1>\n")
     index_file.write("<ul>")
     for filename in file_names:
-        index_file.write(f'<li><a href="{os.path.join(output_folder, filename)}">{filename.replace(".html", "")}</a></li>')
+        index_file.write(f'<li><a href="{os.path.join(output_folder, filename)}" style="color: {song_color}">{filename.replace(".html", "")}</a></li>')
     index_file.write("</ul>")
     index_file.write("</body>\n")
     index_file.write("</html>")

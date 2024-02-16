@@ -13,7 +13,7 @@ def create_html_file(file_path, lyrics, log_file, main_heading):
     html_file_path = os.path.join("vignapana_atmeeeya_geethalu", f"{first_line}.html")
     
     with open(html_file_path, 'w') as file:
-        file.write(f"<html><body style='background-color: #F0F0F0'><h1>{main_heading}</h1><h2>{first_line}</h2><pre>{lyrics}</pre>")
+        file.write(f"<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><style>.lyrics {{ font-size: 18px; }}@media (max-width: 600px) {{.lyrics {{ font-size: 16px;}}</style></head><body style='background-color: #F0F0F0'><h1>{main_heading}</h1><h2>{first_line}</h2><pre class='lyrics'>{lyrics}</pre></body></html>")
     
     log_file.write(f"{file_path} converted to {html_file_path}\n")
     
@@ -23,10 +23,10 @@ def create_index_file(song_links):
     index_file_path = "index.html"    
     song_links.sort()  
     with open(index_file_path, 'w') as file:
-        file.write("<html><body><h1>విజ్ఞాపన ఆత్మీయ గీతాలు</h1>")
+        file.write("<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'></head><body><h1>విజ్ఞాపన ఆత్మీయ గీతాలు</h1>")
         for link in song_links:
             song_heading = link.split('/')[-1].split('.')[0]  
-            file.write(f"<p><a href='{link}'>{song_heading}</a></p>")
+            file.write(f"<p><a href='{link}.html'>{song_heading}</a></p>")
         file.write("</body></html>")
 
 def main():

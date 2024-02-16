@@ -1,23 +1,34 @@
-def create_html_from_text(text_file, html_file):
-    with open(text_file, 'r') as file:
-        lyrics = file.readlines()
+import os
+import re
 
-    with open(html_file, 'w') as file:
-        file.write('<html>\n')
-        file.write('<head><title>Song Lyrics</title></head>\n')
-        file.write('<body style="line-height: 0.8;">\n')  # Adjust the line height here
+def create_html_file(file_path, lyrics, log_file):
+    first_line = lyrics.split("\n")[0].strip()
+    match = re.search(r'(.*?)\s*(\(2\)|\|2\|\|\|2\|\|)\s*$', first_line)
+    if match:
+        first_line = match.group(1)
+    match = re.match('ప\s*:\s*', first_line)
+    if match:
+        first_line = re.sub('ప\s*:\s*', '', first_line)
+    
+    html_file_path = f"vignapana_atmeeya_geethalu/{first_line}.html"
 
-        for line in lyrics:
-            if line.strip() != "":
-                file.write(f'<p>{line.strip()}</p>\n')
-            else:
-                file.write('<br>\n')
+    with open(html_file_path, 'w') as file:
+        file.write(f"<html><body><h2>{first_line}</h2><pre>{lyrics}</pre></body></html>")
 
-        file.write('</body>\n')
-        file.write('</html>\n')
+    log_file.write(f"{file_path} converted to {html_file_path}\n")
 
-    print(f'HTML file "{html_file}" has been created.')
+def main():
+    os.makedirs("vignapana_atmeeya_geethalu", exist_ok=True)
 
-text_file = '61.txt'
-html_file = 'song_lyrics.html'
-create_html_from_text(text_file, html_file)
+    log_file = open("output_log.txt", "w")
+    lyrics_dir = "all_text_files"
+    for file_path in os.listdir(lyrics_dir):
+        if file_path.endswith(".txt"):
+            with open(os.path.join(lyrics_dir, file_path), 'r') as file:
+                lyrics = file.read()
+                create_html_file(file_path, lyrics, log_file)
+
+    log_file.close()
+
+if __name__ == "__main__":
+    main()

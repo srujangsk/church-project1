@@ -1,5 +1,5 @@
 import os
-import regex as re
+import re
 
 input_folder = "all_text_files"
 output_folder = "vignapana_atmeeya_geethalu"
@@ -10,6 +10,7 @@ if not os.path.exists(output_folder):
 
 def clean_song_title(first_line):
     cleaned_title = re.sub(r'(?i)ప\s*:\s*| ప\s*:\s*| ప :\s*| ప\s*:\s*| ప: ', '', first_line)
+    cleaned_title = cleaned_title.replace("ఆత్మీయ", "ఆత్మీయ")
     return cleaned_title
 
 # Write the main content conversion logic
@@ -44,7 +45,7 @@ with open(output_log_file, "w") as log:
 
             log.write(f"Converted {filename} to {output_filename}\n")
 
-# Generate the index file with links in alphabetical order
+# Generate the index file with links including folder path and in alphabetical order
 file_names = sorted(os.listdir(output_folder))
 with open("index.html", "w") as index_file:
     index_file.write("<!DOCTYPE html>\n")
@@ -56,7 +57,7 @@ with open("index.html", "w") as index_file:
     index_file.write("<h1>విజ్ఞాపన ఆత్మీయ గీతాలు</h1>\n")
     index_file.write("<ul>")
     for filename in file_names:
-        index_file.write(f'<li><a href="{filename}">{filename.replace(".html", "")}</a></li>')
+        index_file.write(f'<li><a href="{os.path.join(output_folder, filename)}">{filename.replace(".html", "")}</a></li>')
     index_file.write("</ul>")
     index_file.write("</body>\n")
     index_file.write("</html>")

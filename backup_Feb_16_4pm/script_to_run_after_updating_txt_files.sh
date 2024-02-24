@@ -1,1 +1,0 @@
-rm -rf vignapana_atmeeya_geethalu/ ;python lyrics_to_html.py ; python s.py
